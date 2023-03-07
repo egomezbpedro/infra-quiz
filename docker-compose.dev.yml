@@ -1,0 +1,36 @@
+version: '3'
+services:
+  # nginx:
+  #   ports:
+  #     - "4000:80"
+
+  # react-app:
+  #   build: 
+  #     context: ./client
+  #     args:
+  #       - NODE_ENV=development
+  #   volumes:
+  #     - ./client:/app
+  #     - /app/node_modules
+  #   environment:
+  #     - NODE_ENV=development
+  #   command: npm run dev
+
+  api-server:
+    build: 
+      context: ./server/api
+      dockerfile: ./api.Dockerfile
+      args:
+        - NODE_ENV=development
+    volumes:
+      - ./server/api:/api-server
+      - /api-server/node_modules
+    environment:
+      - NODE_ENV=development
+      
+    command: npm run dev
+
+  mongodb:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=user
+      - MONGO_INITDB_ROOT_PASSWORD=infra
