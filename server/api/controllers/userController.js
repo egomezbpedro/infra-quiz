@@ -1,31 +1,63 @@
 const User = require('../schemas/User.js');
+const bcrypt = require('bcrypt')
 
-exports.createUser = async (req, res, next) => {
+const createUser = async (req, res, next) => {
 
     // Get the username and email from the request body
-    const {username, email} = req.body;
+    const {email, password} = req.body;
 
     try {
+
+        const salt = await bcrypt.genSalt(10);
+        const hash = await bcrypt.hash(password, salt);
+        const ldap = email.split("@", 1);
         // Create a new user
-        const newUser = await User.create({username, email});
+        const newUser = await User.create({username: ldap[0], email, password: hash});
 
         // Send the user back to the client
-        res.status(200).json({
-            status: 'success',
-            newUser
-        });
+        res.status(200).json(newUser);
     }
-    catch (e) {
+    catch (error) {
         // Send any errors to the client
-        console.log(e);
-        res.status(500).json({
-            status: 'fail',
-            message: e
+        console.log(error);
+        res.status(400).json({
+            error: error.message
         })
     }
 }
+// const createUser = async (req, res, next) => {
 
-exports.login = async (req, res) => {
+//     // Get the username and email from the request body
+//     const {email, password} = req.body;
+
+//     try {
+//         const salt = await bcrypt.genSalt(10);
+//         const hash = await bcrypt.hash(password, salt);
+        
+//         const username = text.split("@", 1);
+
+//         const user = await User.
+
+//         // Send the user back to the client
+//         res.status(200).json([user]);
+
+//         // const salt = await bcrypt.genSalt(10);
+//         // const hash = await bcrypt.hash(password, salt);
+        
+//         // const username = text.split("@", 1);
+
+//         // const user = await User.
+
+//         // // Send the user back to the client
+//         // res.status(200).json([user]);
+//     }
+//     catch (e) {
+//         // Send any errors to the client
+//         res.status(400).json({error: e})
+//     }
+// }
+
+const login = async (req, res) => {
 
     const {username} = req.body;
 
@@ -41,7 +73,7 @@ exports.login = async (req, res) => {
         }
         // If a user was found
         // Set the username in the session cookie
-        req.session.database_id = user._id;
+        // req.session.database_id = user._id;
         res.status(200).json({
             status: 'success',
             user
@@ -56,13 +88,10 @@ exports.login = async (req, res) => {
     }
 }
 
-exports.getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res) => {
     try {
         const users = await User.find();
-        res.satus(200).json({
-            status: 'success',
-            users
-        })
+        res.status(200).json([users])
     } catch (e) {
         console.log(e);
         res.status(500).json({
@@ -72,13 +101,25 @@ exports.getAllUsers = async (req, res) => {
     }
 }
 
-exports.getUser = async (req, res) => {
+const getUser = async (req, res) => {
+
+    // Get user _id from the request body
+    const userId = req.body.database_id;
+
     try {
-        const user = await User.findById(req.database_id);
-        res.status(200).json({
-            status: 'success',
-            user
-        })
+        const user = await User.findById(userId);
+        if (user) {
+            res.status(200).json({
+                status: 'success',
+                user
+            })
+        } else {
+            res.status(200).json({
+                status: 'fail',
+                user: 'No user was found'
+            })
+        }
+        
     } catch (e) {
         console.log(e);
         res.status(500).json({
@@ -88,16 +129,16 @@ exports.getUser = async (req, res) => {
     }
 }
 
-exports.updateUser = async (req, res) => {
+const updateUser = async (req, res) => {
 
     // Get the id of the user to be updated from the request parameters
-    const id = req.session.database_id;
+    const userId = req.body.database_id;
+    const updatedFields = req.body.updatedFields
     try {
         // Update the user
-        console.log(req.session);
         console.log(req.body);
-        console.log(id);
-        const user = await User.findByIdAndUpdate(id, req.body, {
+
+        const user = await User.findByIdAndUpdate(userId, updatedFields, {
             new: true,
             runValidators: true
         })
@@ -116,13 +157,13 @@ exports.updateUser = async (req, res) => {
     }   
 }
 
-exports.deleteUser = async (req, res) => {
+const deleteUser = async (req, res) => {
 
     // Get the id of the user to be updated from the request parameters
-    const id = req.session.database_id;
+    const userId = req.body.database_id;
 
     try {
-        const user = await User.findByIdAndDelete(id);
+        const user = await User.findByIdAndDelete(userId);
         res.status(200).json({
             status: 'success',
             user
@@ -136,3 +177,5 @@ exports.deleteUser = async (req, res) => {
         })
     }
 }
+
+module.exports = {createUser, login, getAllUsers, getUser, updateUser, deleteUser}

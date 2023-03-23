@@ -1,7 +1,9 @@
 'use strict'
 
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt')
 const Schema = mongoose.Schema;
+
 
 const userSchema = new Schema({
     username: {
@@ -14,6 +16,10 @@ const userSchema = new Schema({
         required: [true, "The email is required"],
         unique: true,
         lowercase: true,
+    },
+    password: {
+        type: String,
+        required: [true, "A password is required"],
     },
     score: {
         type: Number,

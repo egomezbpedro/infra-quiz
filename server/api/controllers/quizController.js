@@ -33,15 +33,16 @@ async function createQuiz() {
         // Get the quiz data from the api
         const quizData = await getQuizData();
 
-        // Create a new quiz
+        // Create a new quiz in the database
         const newQuiz = await Quiz.create(quizData);
         
         // Retrieve the quiz id and database object id for storing
-        const id = quizData.id
+        const quizId = quizData.id
+
         documentId = JSON.parse(JSON.stringify(newQuiz._id));
 
-        // Store the quizId and document id values in a collection for persistance
-        archiveId = await Archive.create({id, documentId})
+        // Store the quizId and document id values in a different database collection
+        archiveId = await Archive.create([{quizID: quizId, documentID: documentId}])
         console.log(archiveId);
 
     } catch (e) {
@@ -52,13 +53,8 @@ async function createQuiz() {
 
 exports.getQuizById = async (req, res) => {
     try {
-        const quiz = await Quiz.findById(archiveId.documentId);
-        res.json({
-            status: 'success',
-            data: {
-                quiz,
-            }
-        });
+        const quiz = await Quiz.findById(documentId);
+        res.json(quiz);
     } catch (e) {
         console.log("Failed to retrieve quiz by the document id");
         console.log(e);
@@ -70,38 +66,35 @@ async function updateQuiz() {
 
         // Get a new quiz from the api
         const quizData = await getQuizData();
-        
-        // Store the quiz id in a temp var
-        let x = quizData.id;
 
-        try {
-            // Get the archiveId
-            const quizIdArchive = await Archive.findById(archiveId.documentId)
+        // Get the archiveId
+        const quizIdArchive = await Archive.findOne({id: quizData.id}).exec();
+
+        if (!quizIdArchive) {
+            console.log('Quiz was already used, fetching a new one');
+            await updateQuiz();
+        }
+        else {
             
-            if (quizIdArchive) {
-                console.log('Quiz was already used, fetching a new one');
-                await updateQuiz();
-            }
-            else {
-                // Update the quiz document
-                const updatedQuiz = await Quiz.findByIdAndUpdate(archiveId.documentId, quizData, {
-                    new: true,
-                    runValidators: true
-                });
-    
-                const id = quizData.id
-                // Set the document id
-                documentId = JSON.parse(JSON.stringify(newQuiz._id));
-    
-                // Store the quizId and document values in a collection for persistance
-                archiveId = await Archive.create({id, documentId})
-                console.log(archiveId);
-            }
-        } catch (e) {
-            console.log("Failed to update quiz");
-            console.log(e);
+            // Update the quiz document
+            const updatedQuiz = await Quiz.findByIdAndUpdate(documentId, quizData, {
+                new: true,
+                runValidators: true
+            }); 
+
+            
+            // Retrieve the quiz id and database object id for storing
+            const quizId = quizData.id
+
+            documentId = JSON.parse(JSON.stringify(updatedQuiz._id));
+
+            // Store the quizId and document id values in a different database collection
+            archiveId = await Archive.create([{quizID: quizId, documentID: documentId}])
+
+            console.log('Quiz is fresh as a lettuce');
         }
     } catch (e) {
+        console.log("Failed to update quiz");
         console.log(e);
         deleteQuiz();
         updateQuiz();
@@ -138,7 +131,7 @@ exports.createQuizLoop = async () => {
                 await createQuiz();
 
             }
-        }, 1000 * 60 * 60);
+        }, 1000 * 60 * 60 * 24);
 
     } catch (e) {
         console.log(e);

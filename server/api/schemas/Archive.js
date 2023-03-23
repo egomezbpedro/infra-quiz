@@ -5,15 +5,15 @@ const Schema = mongoose.Schema;
 
 
 const archiveSchema = new Schema({
-    id: {
+    quizID: {
         type: Number,
-        required: true,
-        unique: true,
+        required: false,
+        unique: false,
     },
-    documentId: {
+    documentID: {
         type: String,
-        required: true,
-        unique: true
+        required: false,
+        unique: false
     }
 });
 

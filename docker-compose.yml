@@ -6,7 +6,7 @@ services:
   #   image: nginx:stable-alpine
 
   #   volumes:
-  #     - ./server/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+  #    - ./server/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
 
   #   depends_on:
   #     - node-app
@@ -14,31 +14,31 @@ services:
   #   networks:
   #     - quiz-network
 
-  # react-app:
-  #   container_name: react-app
-  #   build: ./client
-  #   environment:
-  #     - REACT_APP_API_URL=http://nginx-server:4000
-  #   volumes:
-  #     - ./client:/client
-  #     - /client/node_modules
-  #   ports:
-  #     - 8000:8000
-  #   depends_on:
-  #     - node-app
-  #     - nginx
-  #   networks:
-  #     - quiz-network
+  react-app:
+    container_name: react-app
+    build: 
+      context: ./client
+      dockerfile: ./client.Dockerfile
+    environment:
+      - REACT_APP_API_URL=http://nginx-server:4000
+    volumes:
+      - ./client:/client
+      - /client/node_modules
+    ports:
+      - 9011:9011
+    depends_on:
+      - api-server
+      # - nginx
+    # networks:
+    #   - quiz-network
 
   api-server:
     container_name: api-server
     build: 
       context: ./server/api
       dockerfile: ./api.Dockerfile
-    environment:
-      - NODE_PORT=5000
     ports:
-      - 5000:5000 # TODO: The api will eventually be behind a proxy and it will not be accesible from the internet.
+      - 9001:9001 # TODO: The api will eventually be behind a proxy and it will not be accesible from the internet.
     depends_on:
       - mongodb
 

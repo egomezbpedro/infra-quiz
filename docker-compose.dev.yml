@@ -4,17 +4,18 @@ services:
   #   ports:
   #     - "4000:80"
 
-  # react-app:
-  #   build: 
-  #     context: ./client
-  #     args:
-  #       - NODE_ENV=development
-  #   volumes:
-  #     - ./client:/app
-  #     - /app/node_modules
-  #   environment:
-  #     - NODE_ENV=development
-  #   command: npm run dev
+  react-app:
+    build: 
+      context: ./client
+      dockerfile: ./client.Dockerfile
+      args:
+        - NODE_ENV=development
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    # command: npm run dev
 
   api-server:
     build: 
@@ -30,7 +31,7 @@ services:
       
     command: npm run dev
 
-  mongodb:
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=user
-      - MONGO_INITDB_ROOT_PASSWORD=infra
+  # mongodb:
+    # environment:
+    #   - MONGO_INITDB_ROOT_USERNAME=infra
+    #   - MONGO_INITDB_ROOT_PASSWORD=infra
