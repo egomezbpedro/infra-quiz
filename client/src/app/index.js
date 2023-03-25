@@ -2,7 +2,8 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import "./App.css";
 
-import { Header, Login, Register, Game, LeaderBoard } from '../components'
+import { Header, Login, Register, Game } from '../components'
+import { LeaderBoard } from '../pages'
 
 
 import 'bootstrap/dist/css/bootstrap.min.css'
