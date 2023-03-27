@@ -1,10 +1,29 @@
 const User = require('../schemas/User.js');
 const bcrypt = require('bcrypt')
+const validator = require('validator')
 
 const createUser = async (req, res, next) => {
 
     // Get the username and email from the request body
     const {email, password} = req.body;
+
+    if (!email || !password){
+        throw Error('All fields are required')
+    }
+
+    if(!validator.isEmail(email)){
+        throw Error('Email is not valid')
+    }
+
+    if(!validator.isStrongPassword(password, [{
+        minLength: 6, 
+        minLowercase: 1, 
+        minUppercase: 1, 
+        minNumbers: 0,
+        minSymbols: 0
+    }])){
+        throw Error('Password not strong enough')
+    }
 
     try {
 
