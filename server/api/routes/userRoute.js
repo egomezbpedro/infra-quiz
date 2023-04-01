@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const requireAuth = require('../middleware/requireAuth')
 
 const {login, getUser, getAllUsers, updateUser, deleteUser, createUser} = require('../controllers/userController.js');
 

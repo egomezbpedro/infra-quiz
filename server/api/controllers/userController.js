@@ -5,7 +5,13 @@ const validator = require('validator')
 const jwt = require('jsonwebtoken')
 
 const createToken = (_id) => {
-    return jwt.sign({_id}, process.env.SECRET_TOKEN, { expiresIn: '3d'})
+    try {
+        return jwt.sign({_id}, process.env.SECRET_TOKEN, { expiresIn: '3d'})
+    } catch (error) {
+        return res.json({
+            error: 'Internal Sever Error'
+        })
+    }
 }
 
 const createUser = async (req, res, next) => {
@@ -13,39 +19,15 @@ const createUser = async (req, res, next) => {
     // Get the username and email from the request body
     const {email, password} = req.body;
 
-    if (!email || !password){
-        return res.json({
-            error: 'All fields are required'
-        })
-    }
-
-    if(!validator.isEmail(email)){
-        return res.json({
-            error: 'Email is not a valid email'
-        })
-    }
-
-    const exists = await User.findOne({email});
-    if (exists) {
-        return res.json({
-            error: 'Email already in use'
-        }) 
-    }
-
     try {
+        const user = await User.signup(email, password);
 
-        const salt = await bcrypt.genSalt(10);
-        const hash = await bcrypt.hash(password, salt);
-        const ldap = email.split("@", 1);
-        // Create a new user
-        const newUser = await User.create({username: ldap[0], email, password: hash});
-
-        const token = createToken(newUser._id)
+        const token = createToken(user._id)
+        
         // Send the user back to the client
         res.status(200).json({email, token});
     }
     catch (error) {
-        // Send any errors to the client
         console.log(error);
         res.status(400).json({
             error: error.message
@@ -54,7 +36,7 @@ const createUser = async (req, res, next) => {
 }
 
 const login = async (req, res) => {
-    console.log(req.body);
+
     const {email, password} = req.body;
 
     try {
@@ -64,11 +46,10 @@ const login = async (req, res) => {
         // Send the user back to the client
         res.status(200).json({email, token});
     }
-    catch (e) {
-        console.log(e);
-        res.status(500).json({
-            status: 'fail',
-            message: e
+    catch (error) {
+        console.log(error);
+        res.status(400).json({
+            error: error.message
         })
     }
 }

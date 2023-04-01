@@ -1,30 +1,40 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { useLogout } from '../hooks/useLogout'
+import { useAuthContext } from '../hooks/useAuthContext'
 
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
+const Navbar = () => {
+  const { logout } = useLogout()
+  const { user } = useAuthContext()
 
-function Header() {
+  const handleClick = () => {
+    logout()
+  }
+
   return (
-    <Navbar bg="dark" variant="dark" expand="lg">  
+    <header>
+      <div className="container">
+        <Link to="/">
+          <h3>Infra Feud</h3>
+        </Link>
+        <nav>
+          <Link to="/leaderboard">Leaderboard</Link>
 
-        <Container>
-            <Link to="/game"><Navbar.Brand>Quizlet</Navbar.Brand></Link>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-                <Nav.Link href="/game">Today Quiz</Nav.Link>
-                <Nav.Link href="/leaderboard">Leaderboard</Nav.Link>
-                <Nav.Link href="/login">Login</Nav.Link>
-                <Nav.Link href="/register">Register</Nav.Link>
-            </Nav>
-            </Navbar.Collapse>
-        </Container>
-
-
-    </Navbar>
+          {user && (
+            <div className='user-email'>
+              <span>{user.email}</span>
+              <button onClick={handleClick}>Log out</button>
+            </div>
+          )}
+          {!user && (
+            <div>
+              <Link to="/login">Login</Link>
+              <Link to="/register">Signup</Link>
+            </div>
+          )}
+        </nav>
+      </div>
+    </header>
   )
 }
 
-export default Header
+export default Navbar
