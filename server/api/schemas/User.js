@@ -31,5 +31,34 @@ const userSchema = new Schema({
     }
 });
 
+userSchema.statics.loginUser = async function(email, password) {
+    if (!email || !password){
+        return res.json({
+            error: 'All fields are required'
+        })
+    }
+
+    if(!validator.isEmail(email)){
+        return res.json({
+            error: 'Email is not a valid email'
+        })
+    }
+
+    const user = await User.findOne({email});
+    if (!user) {
+        return res.json({
+            error: 'There is no user registered with this email'
+        }) 
+    }
+
+    const match = await bcrypt.compare(password, user.password)
+    if(!match) {
+        return res.json({
+            error: 'Incorrect password'
+        }) 
+    }
+
+    return user
+}
 const User = mongoose.model('User', userSchema);
 module.exports = User;

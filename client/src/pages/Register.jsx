@@ -8,7 +8,6 @@ import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 
 function Register() {
-
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -29,14 +28,13 @@ function Register() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(JSON.stringify(formData))
-    
+
     await fetch('/users/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(formData)
     })
     .then( response => response.json())
     .then( data => {
@@ -50,7 +48,7 @@ function Register() {
       }
     })
     .catch((error) => {
-      
+      console.log(error);
     })
     
   }

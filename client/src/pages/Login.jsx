@@ -11,11 +11,12 @@ function Login() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    username: '',
+    email: '',
+    password: ''
   });
   const [formError, setError] = useState(null);
 
-  const { username } = formData;
+  const { email, password } = formData;
   
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -25,12 +26,14 @@ function Login() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    console.log(JSON.stringify(formData))
+    
     await fetch('/api/users/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(formData)
     })
     .then( response => response.json())
     .then( data => {
@@ -44,7 +47,7 @@ function Login() {
       }
     })
     .catch((error) => {
-      console.log(`There was an error: ${error}`)
+      console.log(error);
     })
   }
 
@@ -57,13 +60,19 @@ function Login() {
       </Container>
 
       <Container>
-        <Form onSubmit={onSubmit}>
-          <Form.Group className="mb-3" controlId="formUsername">
-          <input type="text" className="text-muted" name="username" id="username"  placeholder="Enter a username"
-            value={username}
-            onChange={onChange} 
-            />
-          </Form.Group>
+      <Form onSubmit={onSubmit}>
+        <Form.Group className="mb-3" controlId="formEmail">
+        <input type="text" className="text-muted" name="email" id="email"  placeholder="Email"
+          value={email}
+          onChange={onChange} 
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formPassword">
+          <input className="text-muted" type="password" name="password" id="password" 
+          value={password}
+          onChange={onChange} placeholder="Enter a password"></input>
+        </Form.Group>
 
           <Button variant="primary" type="submit">
             Submit

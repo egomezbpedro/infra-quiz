@@ -71,7 +71,7 @@ function Game() {
             {Object.keys(quizData.answers).map((answer) => {
               if (quizData.answers[answer]) {
                 return (
-                  <li key={answer} onClick={()=> optionClicked(answer)}>{quizData.answers[answer]}</li>
+                  <li className="quiz-option" key={answer} onClick={()=> optionClicked(answer)}>{quizData.answers[answer]}</li>
                 )
               }})}
               
