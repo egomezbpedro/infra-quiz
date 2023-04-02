@@ -1,7 +1,7 @@
 require('dotenv').config()
 
 // Reading the API key from env vars
-const KEY = process.env.QUIZ_API_KEY;  
+const KEY = process.env.QUIZ_API_KEY;
 
 const Quiz = require('../schemas/Quiz');
 const Archive = require('../schemas/Archive')

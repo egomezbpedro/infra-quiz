@@ -29,6 +29,10 @@ const userSchema = new Schema({
     streak: {
         type: Number,
         default: 0,
+    },
+    lastResponse: {
+        type: Date,
+        default: 0
     }
 });
 

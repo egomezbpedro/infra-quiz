@@ -35,7 +35,7 @@ function LeaderBoard() {
             <th>Username</th>
             <th>Email</th>
             <th>Score</th>
-            <th>Streak</th>
+            <th>Streak (soon)</th>
           </tr>
         </thead>
         <tbody>

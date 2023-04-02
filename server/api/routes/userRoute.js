@@ -14,7 +14,7 @@ router.route('/signup').post(createUser);
 router.route('/login').post(login);
 
 // Set the route for getting the current user
-router.route('/me').get(getUser);
+router.route('/me').post(getUser);
 
 // Set the route for updating the current user
 router.route('/me/update').patch(updateUser);

@@ -69,20 +69,18 @@ const getAllUsers = async (req, res) => {
 
 const getUser = async (req, res) => {
 
-    // Get user _id from the request body
-    const userId = req.body.database_id;
+    // Get user email from the request body
+    const email = req.body;
 
     try {
-        const user = await User.findById(userId);
+        const user = await User.findOne(email);
         if (user) {
             res.status(200).json({
-                status: 'success',
                 user
             })
         } else {
             res.status(200).json({
-                status: 'fail',
-                user: 'No user was found'
+                error: 'No user was found.'
             })
         }
         
@@ -98,8 +96,7 @@ const getUser = async (req, res) => {
 const updateUser = async (req, res) => {
 
     // Get the id of the user to be updated from the request parameters
-    const userId = req.body.database_id;
-    const updatedFields = req.body.updatedFields
+    const {userId, updatedFields } = req.body.database_id;
     try {
         // Update the user
         console.log(req.body);
@@ -109,7 +106,6 @@ const updateUser = async (req, res) => {
             runValidators: true
         })
         res.status(200).json({
-            status: 'success',
             user
         })
 
