@@ -111,16 +111,17 @@ function Game() {
                   <h1>{quizData.question}</h1>
 
                   <p>Category: {quizData.category} / Difficulty: {quizData.difficulty}</p>
-                </div>
-                <div className="quiz-answers">
-                  <ul>
-                    {Object.keys(quizData.answers || {}).map((answer) => {
-                      if (quizData.answers[answer]) {
-                        return (
-                          <li className="quiz-option" key={answer} onClick={()=> optionClicked(answer)}>{quizData.answers[answer]}</li>
-                        )
-                    }})}
-                  </ul>
+                
+                  <div className="quiz-answers">
+                    <ul>
+                      {Object.keys(quizData.answers || {}).map((answer) => {
+                        if (quizData.answers[answer]) {
+                          return (
+                            <li className="quiz-option" key={answer} onClick={()=> optionClicked(answer)}>{quizData.answers[answer]}</li>
+                          )
+                      }})}
+                    </ul>
+                  </div>
                 </div>
                 
                 <div className="success">

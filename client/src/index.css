@@ -149,29 +149,35 @@ form.signup, form.login {
   height: auto;
   border-radius: 4px;
 
-  box-shadow: var(--accent) 0px 20px 30px -10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 .quiz-data{
   width: 90%;
-  margin: 8px auto 8px;
+  margin: 40px auto 0;
 }
 div.quiz-answers{
   width: 90%;
-  margin: 8px auto 8px;
+  margin: 40px auto 0;
 }
 
 ul {
   list-style: none;
-  margin: 0 auto;
+  margin: 8px auto;
   padding: 0px;
   width: 80%;
+  min-width: 50%;
+  max-width: 80%;
 }
 
 li{
-  margin: 8px auto;
+  min-width: 50%;
+  max-width: 100%;
+  margin: 16px auto;
   padding: 8px;
+  width: auto;
 
   text-align: center;
+  text-size-adjust: auto;
   
   border: 2px solid rgb(84, 84, 84);
   border-radius: 20px;
