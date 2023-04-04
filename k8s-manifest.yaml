@@ -44,9 +44,9 @@ spec:
           - name: MONGO_IP
             value: mongodb-service
           - name: MONGO_PORT
-            value: 32000
+            value: "32000"
           - name: NODE_PORT
-            value: 3080
+            value: "3080"
         ports:
           - containerPort: 3080
 
