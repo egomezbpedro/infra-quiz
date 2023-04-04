@@ -1,0 +1,16 @@
+client/node_modules
+client/package-lock*.json
+client/.dockerignore
+client/.gitignore
+
+server/node_modules
+server/package-lock*.json
+server/.dockerignore
+server/.gitignore
+
+Dockerfile
+api.Dockerfile
+client.Dockerfile
+cloudbuild.yaml
+docker-compose.yaml
+README.md
