@@ -139,12 +139,12 @@ spec:
               name: mongo-creds
               key: password
         volumeMounts:
-        - name: "mongo-data-dir"
-          mountPath: "/data/db"
+        - name: mongo-data-dir
+          mountPath: /data/db
       volumes:
-      - name: "mongo-data-dir"
+      - name: mongo-data-dir
         persistentVolumeClaim:
-          claimName: "mongo-data"
+          claimName: mongo-data
 
 ---
 # MONGO SERVICE
@@ -201,5 +201,4 @@ data:
   mongo-user: aW5mcmE=
   mongo-password: Z29yZG9zaW5mdXR1cm8=
   mongo-port: MjcwMTc=
-  mongo-ip: bW9uZ29kYg== # TODO: Set the mongo service ip currently 'ºmongodb'
-
+  mongo-ip: bW9uZ29kYg==
