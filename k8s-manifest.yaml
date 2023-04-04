@@ -79,6 +79,7 @@ spec:
   type: LoadBalancer
 
 ---
+# MOGO Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -148,6 +149,7 @@ spec:
           claimName: "mongo-data"
 
 ---
+# MONGO SERVICE
 apiVersion: v1
 kind: Service
 metadata:
@@ -165,6 +167,7 @@ spec:
   type: NodePort
 
 ---
+# MONGO PV
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -177,6 +180,7 @@ spec:
   hostPath:
     path: /data/mongo
 ---
+# MONGO PVC
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -187,16 +191,6 @@ spec:
   resources:
     requests:
       storage: 1Gi
-
----
-apiVersion: v1
-data:
-  password: cGFzc3dvcmQxMjM= #password123
-  username: YWRtaW51c2Vy #adminuser
-kind: Secret
-metadata:
-  creationTimestamp: null
-  name: mongo-creds
 
 ---
 # MONGO DATABASE SECRETS
