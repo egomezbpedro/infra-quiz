@@ -17,7 +17,7 @@ router.route('/login').post(login);
 router.route('/me').post(getUser);
 
 // Set the route for updating the current user
-router.route('/me/update').patch(updateUser);
+router.route('/me/update').post(updateUser);
 
 // Set the route for deleting the current user
 router.route('/me/delete').delete(deleteUser);

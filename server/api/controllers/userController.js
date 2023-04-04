@@ -58,11 +58,10 @@ const getAllUsers = async (req, res) => {
     try {
         const users = await User.find();
         res.status(200).json([users])
-    } catch (e) {
-        console.log(e);
+    } catch (error) {
+        console.log(error);
         res.status(500).json({
-            status: 'fail',
-            message: e
+            error: error.message
         })
     }
 }
@@ -75,20 +74,18 @@ const getUser = async (req, res) => {
     try {
         const user = await User.findOne(email);
         if (user) {
-            res.status(200).json({
-                user
-            })
+            console.log(user);
+            res.status(200).json(user)
         } else {
             res.status(200).json({
                 error: 'No user was found.'
             })
         }
         
-    } catch (e) {
-        console.log(e);
+    } catch (error) {
+        console.log(error);
         res.status(500).json({
-            status: 'fail',
-            message: e
+            error: error.message
         })
     }
 }
@@ -96,7 +93,7 @@ const getUser = async (req, res) => {
 const updateUser = async (req, res) => {
 
     // Get the id of the user to be updated from the request parameters
-    const {userId, updatedFields } = req.body.database_id;
+    const {userId, updatedFields } = req.body;
     try {
         // Update the user
         console.log(req.body);
@@ -110,11 +107,10 @@ const updateUser = async (req, res) => {
         })
 
     }
-    catch (e) {
-        console.log(e);
+    catch (error) {
+        console.log(error);
         res.status(500).json({
-            status: 'fail',
-            message: e
+            error: error.message
         })
     }   
 }
@@ -122,21 +118,14 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
 
     // Get the id of the user to be updated from the request parameters
-    const userId = req.body.database_id;
+    const userId = req.body.userId;
 
     try {
         const user = await User.findByIdAndDelete(userId);
-        res.status(200).json({
-            status: 'success',
-            user
-
-        })
-    } catch (e) {
-        console.log(e);
-        res.status(500).json({
-            status: 'fail',
-            message: e
-        })
+        res.status(200).json(user)
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({error: error.message})
     }
 }
 

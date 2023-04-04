@@ -1,42 +1,36 @@
 version: '3'
 services:
 
-  # nginx:
-  #   container_name: nginx-server
-  #   image: nginx:stable-alpine
-
-  #   volumes:
-  #    - ./server/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-
-  #   depends_on:
-  #     - node-app
-
-  #   networks:
-  #     - quiz-network
-
   react-app:
     container_name: react-app
     build: 
       context: ./client
       dockerfile: ./client.Dockerfile
-    environment:
-      - REACT_APP_API_URL=http://nginx-server:4000
+      args:
+        - NODE_ENV=production
     volumes:
       - ./client:/client
       - /client/node_modules
+    environment:
+      - NODE_ENV=development
     ports:
       - 9011:9011
     depends_on:
       - api-server
-      # - nginx
-    # networks:
-    #   - quiz-network
 
   api-server:
     container_name: api-server
     build: 
       context: ./server/api
       dockerfile: ./api.Dockerfile
+      args:
+        - NODE_ENV=development
+    volumes:
+      - ./server/api:/api-server
+      - /api-server/node_modules
+    environment:
+      - NODE_ENV=development
+    command: npm run dev
     ports:
       - 9001:9001 # TODO: The api will eventually be behind a proxy and it will not be accesible from the internet.
     depends_on:
@@ -51,19 +45,6 @@ services:
       - MONGO_INITDB_DATABASE=app
     volumes:
       - db-volume:/data/db
-    # networks:
-    #   - quiz-network
-
-  # redis:
-  #   container_name: redis
-  #   image: redis
-  #   hostname: redis
-  #   networks:
-  #     - quiz-network
 
 volumes:
   db-volume:
-
-# networks:
-#   quiz-network:
-#     driver: bridge

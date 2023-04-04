@@ -35,7 +35,10 @@ spec:
           - name: MONGO_IP
             value: mongodb-service
           - name: MONGO_PORT
-            value: "27017"
+            valueFrom:
+              secretKeyRef:
+                name: mongo-credentials
+                key: mongo-port
           - name: NODE_PORT
             value: "9001"
         resources:
@@ -50,14 +53,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: apiserver-service
+  name: api-server-service
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: apiserver
   ports:
   - protocol: TCP
     port: 9001
-    targetPort: 9001
-    nodePort: 30001
+    
 

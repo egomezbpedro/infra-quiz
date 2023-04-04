@@ -53,17 +53,35 @@ form button {
   cursor: pointer;
 }
 div.error {
-  width: 60%;
   padding: 8px;
   margin: 20px auto;
   display: table;
   
 }
+h1.error {
+  width: 400px;
+  padding: 16px;
+  border-radius: 4px;
+  color: var(--error);
+  text-align: center;
+  vertical-align: middle;
+  line-height: 100%;
+  display: table-cell; 
+  border: 3px solid var(--error);
+
+  position: absolute;
+  top: 100px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
 p.error {
-  padding: 8px;
+  width: 400px;
+  padding: 16px;
   background: #dbdbdb;
   color: var(--error);
   text-align: center;
+  font-size: 16px;
   vertical-align: middle;
   line-height: 100%;
   display: table-cell; 
@@ -71,20 +89,27 @@ p.error {
   border-radius: 4px;
 }
 div.success {
-  width: 27%;
+  width: 400px;
   background: #dbdbdb;
-  margin: 20px auto;
+  margin: 100px auto;
   display: table;
 }
-p.success {
-  padding: 8px;
+h1.success {
+  width: 400px;
+  padding: 16px;
   border-radius: 4px;
   color: var(--primary);
   text-align: center;
   vertical-align: middle;
   line-height: 100%;
   display: table-cell; 
-  border: 1px solid var(--primary);
+  border: 3px solid var(--primary);
+  
+  position: absolute;
+  top: 100px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
 }
 
 div.score {

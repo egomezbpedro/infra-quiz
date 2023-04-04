@@ -32,7 +32,7 @@ const userSchema = new Schema({
     },
     lastResponse: {
         type: Date,
-        default: 0
+        default: "2023-04-01T17:01:04.336Z"
     }
 });
 
