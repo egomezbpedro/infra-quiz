@@ -4,7 +4,7 @@ services:
   react-app:
     container_name: react-app
     build: 
-      context: ./client
+      context: ./
       dockerfile: ./client.Dockerfile
       args:
         - NODE_ENV=production
@@ -21,7 +21,7 @@ services:
   api-server:
     container_name: api-server
     build: 
-      context: ./server/api
+      context: ./
       dockerfile: ./api.Dockerfile
       args:
         - NODE_ENV=development

@@ -1,0 +1,9 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+ args: [ 'build', '-t', 'europe-west1-docker.pkg.dev/whp-quiz-game/whp-quiz-repository/whp-quiz-api-server', '-f', './api.Dockerfile', '.' ]
+ images:
+ - 'europe-west1-docker.pkg.dev/whp-quiz-game/whp-quiz-repository/whp-quiz-api-server'
+- name: 'gcr.io/cloud-builders/docker'
+ args: [ 'build', '-t', 'europe-west1-docker.pkg.dev/whp-quiz-game/whp-quiz-repository/whp-quiz-client', '-f', './client.Dockerfile', '.' ]
+ images:
+ - 'europe-west1-docker.pkg.dev/whp-quiz-game/whp-quiz-repository/whp-quiz-client'

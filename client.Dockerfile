@@ -5,20 +5,12 @@ FROM node:19-slim
 WORKDIR /client
 
 ## Copy the package.json
-COPY package.json .
+COPY ./client/package.json .
 
-## Install all dependencies
-ARG NODE_ENV
-
-# RUN if [ "$NODE_ENV" = "development" ]; \
-#         then npm i; \
-#         else npm ci --only=production; \
-#     fi
-
-RUN npm i
+RUN npm i --omit=dev
 
 ## Copy the app code
-COPY . ./
+COPY ./client/* ./
 
 ## Set the PORT
 ENV PORT 9011
