@@ -1,3 +1,15 @@
+---
+# MONGO DATABASE STORAGE_CLASS
+kind: StorageClass
+apiVersion: storage.k8s.io/v1beta1
+metadata:
+ name: fast
+provisioner: kubernetes.io/gce-pd
+parameters:
+ type: pd-ssd
+
+---
+# MONGO DATABASE STATEFUL SET
 apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
@@ -54,10 +66,6 @@ spec:
         env:
           - name: MONGO_SIDECAR_POD_LABELS
             value: "role=mongo"
-      volumes:
-      - name: mongodb
-        persistentVolumeClaim:
-          claimName: mongo-pvc
   volumeClaimTemplates:
     - metadata:
         name: mongo-persistent-storage
@@ -67,17 +75,6 @@ spec:
         resources:
           requests:
             storage: 4Gi
-        
-        
----
-# MONGO DATABASE STORAGE_CLASS
-kind: StorageClass
-apiVersion: storage.k8s.io/v1beta1
-metadata:
- name: fast
-provisioner: kubernetes.io/gce-pd
-parameters:
- type: pd-ssd
 
 ---
 # MONGO DATABASE SERVICE
