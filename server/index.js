@@ -1,11 +1,11 @@
 const express = require('express')
 const cors = require('cors');
-const app = express()
-const {createQuizLoop} = require('./controllers/quizController')
+const app = express();
+const createQuizLoop = require('/api-server/controllers/quizController');
 
 // Import the application ROUTES
-const userRouter = require('./routes/userRoute');
-const quizRouter = require('./routes/quizRoute');
+const userRouter = require('/api-server//routes/userRoute');
+const quizRouter = require('/api-server/routes/quizRoute');
 
 app.use((req, res, next) => {
   console.log(req.path, req.method, req.body);
