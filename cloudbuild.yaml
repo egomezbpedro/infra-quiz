@@ -1,6 +1,4 @@
 steps:
-- name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', 'europe-west1-docker.pkg.dev/whp-quiz-game/whp-quiz-repository/whp-quiz-game', '.' ]
 
   # build the server container image
 - name: "gcr.io/cloud-builders/docker"
