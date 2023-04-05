@@ -17,7 +17,7 @@ ENV PORT 9001
 EXPOSE $PORT
 
 ## Command Entry point
-CMD ["node", "index.js"]
+CMD ["node", "server.js"]
 
 
 
