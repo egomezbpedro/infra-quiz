@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client-app
+  template:
+    metadata:
+      labels:
+        app: client-app
+    spec:
+      containers:
+      - name: client-app
+        image: europe-west1-docker.pkg.dev/whp-quiz-game/whp-quiz-repository/quiz-client:latest
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 9011
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-service
+spec:
+  selector:
+    app: client-app
+  ports:
+  - protocol: "TCP"
+    port: 9011
+    targetPort: 9011
+  type: LoadBalancer
+

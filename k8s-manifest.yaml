@@ -110,10 +110,10 @@ spec:
               - --eval
               - "db.adminCommand('ping')"
           initialDelaySeconds: 30
-          periodSeconds: 10
-          timeoutSeconds: 5
-          successThreshold: 1
+          periodSeconds: 20
+          timeoutSeconds: 20
           failureThreshold: 6
+          successThreshold: 1
         readinessProbe:
           exec:
             command:
@@ -121,10 +121,10 @@ spec:
               - --eval
               - "db.adminCommand('ping')"
           initialDelaySeconds: 30
-          periodSeconds: 10
-          timeoutSeconds: 5
-          successThreshold: 1
+          periodSeconds: 20
+          timeoutSeconds: 20
           failureThreshold: 6
+          successThreshold: 1
         env:
         - name: MONGO_INITDB_ROOT_USERNAME
           valueFrom:

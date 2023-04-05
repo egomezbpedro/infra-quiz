@@ -1,5 +1,35 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'build', '-t', 'europe-west1-docker.pkg.dev/whp-quiz-game/whp-quiz-repository/whp-quiz-game', '.' ]
-images:
-- 'europe-west1-docker.pkg.dev/whp-quiz-game/whp-quiz-repository/whp-quiz-game'
+
+  # build the server container image
+- name: "gcr.io/cloud-builders/docker"
+  args: [ 'build', '-t', 'europe-west1-docker.pkg.dev/whp-quiz-game/whp-quiz-repository/quiz-server:latest', '-f', './api.Dockerfile', '.' ]
+  # push container image
+- name: "gcr.io/cloud-builders/docker"
+  args: ["push", "europe-west1-docker.pkg.dev/whp-quiz-game/whp-quiz-repository/quiz-server:latest"]
+
+  # build the client container image
+- name: "gcr.io/cloud-builders/docker"
+  args: [ 'build', '-t', 'europe-west1-docker.pkg.dev/whp-quiz-game/whp-quiz-repository/quiz-client:latest', '-f', './client.Dockerfile', '.' ]
+  # push container image
+- name: "gcr.io/cloud-builders/docker"
+  args: ["push", "europe-west1-docker.pkg.dev/whp-quiz-game/whp-quiz-repository/quiz-client:latest"]
+
+  # deploy server container image to GKE
+- name: "gcr.io/cloud-builders/gke-deploy"
+  args:
+  - run
+  - --filename=./kube
+  - --image=europe-west1-docker.pkg.dev/whp-quiz-game/whp-quiz-repository/quiz-server:latest
+  - --location=europe-southwest1-a
+  - --cluster=whp-infra-quiz
+
+  # deploy client container image to GKE
+- name: "gcr.io/cloud-builders/gke-deploy"
+  args:
+  - run
+  - --filename=./kube
+  - --image=europe-west1-docker.pkg.dev/whp-quiz-game/whp-quiz-repository/quiz-client:latest
+  - --location=europe-southwest1-a
+  - --cluster=whp-infra-quiz
