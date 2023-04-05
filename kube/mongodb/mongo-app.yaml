@@ -13,7 +13,7 @@ parameters:
 apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
-  name: mongodb-statefulSet
+  name: mongodb-statefulset
 spec:
   replicas: 1
   selector:
@@ -70,7 +70,7 @@ spec:
     - metadata:
         name: mongo-persistent-storage
       spec:
-        storageClassName: "fast"
+        storageClassName: fast
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
