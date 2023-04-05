@@ -31,12 +31,6 @@ spec:
       containers:
       - name: mongodb
         image: mongo:latest
-        command:
-          - mongod
-          - "--replSet"
-          - rs0
-          - "--smallfiles"
-          - "--noprealloc"
         volumeMounts:
           - name: mongo-persistent-storage
             mountPath: /data/db
