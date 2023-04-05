@@ -23,11 +23,11 @@ steps:
   - --location=europe-southwest1-a
   - --cluster=whp-infra-quiz
 
-  # deploy client container image to GKE
-- name: "gcr.io/cloud-builders/gke-deploy"
-  args:
-  - run
-  - --filename=./kube/client/client-deployment.yaml
-  - --image=europe-west1-docker.pkg.dev/whp-quiz-game/whp-quiz-repository/quiz-client:latest
-  - --location=europe-southwest1-a
-  - --cluster=whp-infra-quiz
+#   # deploy client container image to GKE
+# - name: "gcr.io/cloud-builders/gke-deploy"
+#   args:
+#   - run
+#   - --filename=./kube/client/client-deployment.yaml
+#   - --image=europe-west1-docker.pkg.dev/whp-quiz-game/whp-quiz-repository/quiz-client:latest
+#   - --location=europe-southwest1-a
+#   - --cluster=whp-infra-quiz
