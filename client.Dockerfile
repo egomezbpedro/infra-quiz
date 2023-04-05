@@ -10,7 +10,7 @@ COPY ./client/package.json .
 RUN npm i --omit=dev
 
 ## Copy the app code
-COPY ./client/* ./
+COPY /client .
 
 ## Set the PORT
 ENV PORT 9011
