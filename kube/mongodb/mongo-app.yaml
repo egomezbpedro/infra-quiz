@@ -1,23 +1,35 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: apps/v1beta1
+kind: StatefulSet
 metadata:
-  name: mongodb-deployment
+  name: mongodb-statefulSet
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: mongodb
+      role: mongo
+      environment: test
+  serviceName: "mongodb-service"
   template:
     metadata:
       labels:
         app: mongodb
+        role: mongo
+        environment: test
     spec:
+      terminationGracePeriodSeconds: 10
       containers:
       - name: mongodb
         image: mongo:latest
+        command:
+          - mongod
+          - "--replSet"
+          - rs0
+          - "--smallfiles"
+          - "--noprealloc"
         volumeMounts:
-        - mountPath: /data/db
-          name: mongodb
+          - name: mongo-persistent-storage
+            mountPath: /data/db
         env:
           - name: MONGO_INITDB_ROOT_USERNAME
             valueFrom:
@@ -37,21 +49,48 @@ spec:
             cpu: "500m"
         ports:
         - containerPort: 27017
+      - name: mongo-sidecar
+        image: cvallance/mongo-k8s-sidecar
+        env:
+          - name: MONGO_SIDECAR_POD_LABELS
+            value: "role=mongo"
       volumes:
       - name: mongodb
         persistentVolumeClaim:
-        claimNam: mongo-pvc
+          claimName: mongo-pvc
+  volumeClaimTemplates:
+    - metadata:
+        name: mongo-persistent-storage
+      spec:
+        storageClassName: "fast"
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 4Gi
+        
+        
+---
+# MONGO DATABASE STORAGE_CLASS
+kind: StorageClass
+apiVersion: storage.k8s.io/v1beta1
+metadata:
+ name: fast
+provisioner: kubernetes.io/gce-pd
+parameters:
+ type: pd-ssd
 
 ---
-
+# MONGO DATABASE SERVICE
 apiVersion: v1
 kind: Service
 metadata:
   name: mongodb-service
+  labels:
+    name: mongodb
 spec:
-  selector:
-    app: mongodb
   ports:
-  - protocol: TCP
-    port: 27017
-    targetPort: 27017
+    - port: 27017
+      targetPort: 27017
+  clusterIP: None
+  selector:
+    role: mongo
