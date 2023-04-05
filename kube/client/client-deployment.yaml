@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: client-app
-        image: gpedroenrique/quizlet:react-app
+        image: europe-west1-docker.pkg.dev/whp-quiz-game/whp-quiz-repository/quiz-client:latest
         imagePullPolicy: Always
         resources:
           limits:
@@ -34,7 +34,7 @@ spec:
     app: client-app
   ports:
   - protocol: "TCP"
-    port: 8080
+    port: 9011
     targetPort: 9011
   type: LoadBalancer
 
