@@ -1,7 +1,11 @@
 const express = require('express')
 const cors = require('cors');
 const app = express();
+<<<<<<< HEAD
 const createQuizLoop = require('./controllers/quizController');
+=======
+const {createQuizLoop} = require('./controllers/quizController');
+>>>>>>> a48fd1872214e81bfac559f309c1d5a037fc1ffc
 
 // Import the application ROUTES
 const userRouter = require('./routes/userRoute');
