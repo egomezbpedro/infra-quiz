@@ -1,7 +1,7 @@
 ---
 # MONGO DATABASE STORAGE_CLASS
 kind: StorageClass
-apiVersion: storage.k8s.io/v1beta1
+apiVersion: storage.k8s.io/v1
 metadata:
  name: fast
 provisioner: kubernetes.io/gce-pd
@@ -10,7 +10,7 @@ parameters:
 
 ---
 # MONGO DATABASE STATEFUL SET
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mongodb-statefulset
