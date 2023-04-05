@@ -27,6 +27,11 @@ spec:
               secretKeyRef:
                 name: mongo-credentials
                 key: mongo-user
+          - name: SECRET_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: api-secrets
+                key: mongo-user
           - name: MONGO_PASSWORD
             valueFrom:
               secretKeyRef:
