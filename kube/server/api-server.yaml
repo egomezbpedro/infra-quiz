@@ -55,11 +55,11 @@ kind: Service
 metadata:
   name: api-server-service
 spec:
-  type: ClusterIP
   selector:
     app: apiserver
   ports:
   - protocol: TCP
     port: 9001
+    targetPort: 9001
     
 

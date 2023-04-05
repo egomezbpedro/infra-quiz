@@ -22,9 +22,7 @@ services:
     container_name: api-server
     build: 
       context: ./
-      dockerfile: ./api.Dockerfile
-      args:
-        - NODE_ENV=development
+      dockerfile: ./Dockerfile
     volumes:
       - ./server/api:/api-server
       - /api-server/node_modules

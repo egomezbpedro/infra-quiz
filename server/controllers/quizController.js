@@ -21,7 +21,6 @@ async function getQuizData() {
 
     const response = await fetch('https://quizapi.io/api/v1/questions?limit=1', options);
     const data = await response.json();
-    console.log(data)
     return data[0];
 };
 
@@ -114,7 +113,6 @@ exports.createQuizLoop = async () => {
     try {
 
         await createQuiz();
-        console.log("Quiz created");
         
         setInterval(async () => {
             try {
