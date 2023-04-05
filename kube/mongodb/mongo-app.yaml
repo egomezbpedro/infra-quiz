@@ -20,14 +20,12 @@ spec:
     matchLabels:
       app: mongodb
       role: mongo
-      environment: test
   serviceName: "mongodb-service"
   template:
     metadata:
       labels:
         app: mongodb
         role: mongo
-        environment: test
     spec:
       terminationGracePeriodSeconds: 10
       containers:
