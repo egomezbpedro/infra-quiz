@@ -50,7 +50,7 @@ async function createQuiz() {
     }
 }
 
-async function getQuizById (req, res){
+exports.getQuizById = async (req, res) => {
     try {
         const quiz = await Quiz.findById(documentId);
         res.json(quiz);

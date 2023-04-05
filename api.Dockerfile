@@ -10,7 +10,7 @@ COPY ./server/package.json .
 RUN npm i --omit=dev
 
 ## Copy the app code
-COPY ./server/* ./
+COPY /server .
 
 ## Set the PORT
 ENV PORT 9001
