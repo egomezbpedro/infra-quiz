@@ -25,5 +25,13 @@ app.get('/', (req, res) => {
   res.send('The API is live')
 })
 
-createQuizLoop()
+try {
+  createQuizLoop()
+} catch (error) {
+  console.log(error);
+  setTimeout(()=>{
+    createQuizLoop()
+  }, 20000)
+}
+
 module.exports = app;
