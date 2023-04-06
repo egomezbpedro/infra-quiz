@@ -2,9 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: client-service
-  annotations:
-    cloud.google.com/neg: '{"ingress": true}'
-    cloud.google.com/backend-config: '{"default": "iap-test"}'
+  # annotations:
+  #   cloud.google.com/neg: '{"ingress": true}'
+  #   cloud.google.com/backend-config: '{"default": "iap-test"}'
 spec:
   ports:
   - port: 8080
