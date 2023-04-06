@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-service
+  # annotations:
+  #   cloud.google.com/neg: '{"ingress": true}'
+  #   cloud.google.com/backend-config: '{"default": "iap-test"}'
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 9011
+  selector:
+    app: client-app
+  type: NodePort

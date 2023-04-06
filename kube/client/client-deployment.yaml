@@ -14,27 +14,17 @@ spec:
     spec:
       containers:
       - name: client-app
-        image: gpedroenrique/quizlet:react-app
+        image: europe-west1-docker.pkg.dev/whp-quiz-game/whp-quiz-repository/quiz-client:latest
         imagePullPolicy: Always
         resources:
           limits:
             memory: "512Mi"
             cpu: "500m"
+        env:
+        # - name: HOST
+        #   value: infrafeud.com
+        - name: DANGEROUSLY_DISABLE_HOST_CHECK
+          value: "true"
         ports:
-        - containerPort: 9011
-
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: client-service
-spec:
-  selector:
-    app: client-app
-  ports:
-  - protocol: "TCP"
-    port: 9011
-    targetPort: 9011
-  type: LoadBalancer
-
+        - name: http
+          containerPort: 9011

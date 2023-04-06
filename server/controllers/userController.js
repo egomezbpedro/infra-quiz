@@ -8,9 +8,7 @@ const createToken = (_id) => {
     try {
         return jwt.sign({_id}, process.env.SECRET_TOKEN, { expiresIn: '3d'})
     } catch (error) {
-        return res.json({
-            error: 'Internal Sever Error'
-        })
+        throw Error('Internal Sever Error')
     }
 }
 
@@ -23,7 +21,6 @@ const createUser = async (req, res, next) => {
         const user = await User.signup(email, password);
 
         const token = createToken(user._id)
-        
         // Send the user back to the client
         res.status(200).json({email, token});
     }

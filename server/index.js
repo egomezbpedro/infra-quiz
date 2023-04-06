@@ -1,7 +1,7 @@
 const express = require('express')
 const cors = require('cors');
-const app = express()
-const {createQuizLoop} = require('./controllers/quizController')
+const app = express();
+const {createQuizLoop} = require('./controllers/quizController');
 
 // Import the application ROUTES
 const userRouter = require('./routes/userRoute');
@@ -25,5 +25,13 @@ app.get('/', (req, res) => {
   res.send('The API is live')
 })
 
-createQuizLoop()
+try {
+  createQuizLoop()
+} catch (error) {
+  console.log(error);
+  setTimeout(()=>{
+    createQuizLoop()
+  }, 20000)
+}
+
 module.exports = app;

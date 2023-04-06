@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: apiserver
-        image: gpedroenrique/quizlet:apiserver
+        image: europe-west1-docker.pkg.dev/whp-quiz-game/whp-quiz-repository/quiz-server:latest
         imagePullPolicy: Always
         env:
           - name: QUIZ_API_KEY
@@ -27,6 +27,11 @@ spec:
               secretKeyRef:
                 name: mongo-credentials
                 key: mongo-user
+          - name: SECRET_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: api-secrets
+                key: SECRET_TOKEN
           - name: MONGO_PASSWORD
             valueFrom:
               secretKeyRef:
@@ -60,6 +65,7 @@ spec:
     app: apiserver
   ports:
   - protocol: TCP
-    port: 9001
+    port: 80
+    targetPort: 9001
     
 
