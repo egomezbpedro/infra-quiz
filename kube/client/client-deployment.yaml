@@ -21,65 +21,10 @@ spec:
             memory: "512Mi"
             cpu: "500m"
         env:
-        - name: HOST
-          value: infrafeud.com
+        # - name: HOST
+        #   value: infrafeud.com
         - name: DANGEROUSLY_DISABLE_HOST_CHECK
           value: "true"
         ports:
         - name: http
           containerPort: 9011
-
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: client-service
-  annotations:
-    cloud.google.com/neg: '{"ingress": true}'
-    cloud.google.com/backend-config: '{"default": "iap-test"}'
-spec:
-  ports:
-  - port: 8080
-    protocol: TCP
-    targetPort: 9011
-  selector:
-    app: client-app
-  type: NodePort
-
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: basic-ingress
-  namespace: default
-  annotations:
-    kubernetes.io/ingress.global-static-ip-name: "web-static-ip"
-    networking.gke.io/managed-certificates: iap-test
-spec:
-  defaultBackend:
-    service:
-      name: client-service
-      port:
-        number: 8080
-
----
-apiVersion: networking.gke.io/v1
-kind: ManagedCertificate
-metadata:
-  name: iap-test
-spec:
-  domains:
-    - infrafeud.com
-
----
-apiVersion: cloud.google.com/v1
-kind: BackendConfig
-metadata:
-  name: iap-test
-  namespace: default
-spec:
-  iap:
-    enabled: true
-    oauthclientCredentials:
-      secretName: iap-test
