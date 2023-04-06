@@ -5,7 +5,7 @@ FROM node:19-slim
 WORKDIR /client
 
 ## Copy the package.json
-COPY ./client/package.json .
+COPY client/package.json /client
 
 RUN npm i --omit=dev
 

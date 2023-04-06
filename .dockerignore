@@ -11,6 +11,5 @@ server/.gitignore
 Dockerfile
 api.Dockerfile
 client.Dockerfile
-cloudbuild.yaml
 docker-compose.yaml
 README.md

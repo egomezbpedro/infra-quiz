@@ -8,7 +8,6 @@ const userRouter = require('./routes/userRoute');
 const quizRouter = require('./routes/quizRoute');
 
 app.use((req, res, next) => {
-  console.log(req.path, req.method, req.body);
   next();
 })
 
@@ -22,7 +21,7 @@ app.use('/users', userRouter);
 app.use('/quiz', quizRouter);
 
 app.get('/', (req, res) => {
-  res.send('The API is live')
+  res.status(200).send("OK");
 })
 
 try {

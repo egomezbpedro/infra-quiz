@@ -5,12 +5,12 @@ FROM node:19-slim
 WORKDIR /api-server
 
 ## Copy the package.json
-COPY ./server/package.json .
+COPY /server/package.json /api-server
 
 RUN npm i --omit=dev
 
 ## Copy the app code
-COPY /server .
+COPY /server /api-server
 
 ## Set the PORT
 ENV PORT 9001
