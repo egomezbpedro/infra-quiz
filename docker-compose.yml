@@ -6,13 +6,9 @@ services:
     build: 
       context: ./
       dockerfile: ./client.Dockerfile
-      args:
-        - NODE_ENV=production
     volumes:
       - ./client:/client
       - /client/node_modules
-    environment:
-      - NODE_ENV=development
     ports:
       - 9011:9011
     depends_on:
@@ -22,15 +18,13 @@ services:
     container_name: api-server
     build: 
       context: ./
-      dockerfile: ./Dockerfile
+      dockerfile: ./api.Dockerfile
     volumes:
-      - ./server/api:/api-server
+      - ./server/:/api-server
       - /api-server/node_modules
-    environment:
-      - NODE_ENV=development
-    command: npm run dev
+    env_file: ./server/.env
     ports:
-      - 9001:9001 # TODO: The api will eventually be behind a proxy and it will not be accesible from the internet.
+      - 9001:9001
     depends_on:
       - mongodb
 
@@ -39,7 +33,7 @@ services:
     image: mongo
     environment:
       - MONGO_INITDB_ROOT_USERNAME=user
-      - MONGO_INITDB_ROOT_PASSWORD=infra
+      - MONGO_INITDB_ROOT_PASSWORD=password
       - MONGO_INITDB_DATABASE=app
     volumes:
       - db-volume:/data/db
