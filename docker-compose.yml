@@ -1,0 +1,50 @@
+version: '3'
+services:
+
+  react-app:
+    container_name: react-app
+    build: 
+      context: ./client
+      dockerfile: ./client.Dockerfile
+      args:
+        - NODE_ENV=production
+    volumes:
+      - ./client:/client
+      - /client/node_modules
+    environment:
+      - NODE_ENV=development
+    ports:
+      - 9011:9011
+    depends_on:
+      - api-server
+
+  api-server:
+    container_name: api-server
+    build: 
+      context: ./server/api
+      dockerfile: ./api.Dockerfile
+      args:
+        - NODE_ENV=development
+    volumes:
+      - ./server/api:/api-server
+      - /api-server/node_modules
+    environment:
+      - NODE_ENV=development
+    command: npm run dev
+    ports:
+      - 9001:9001 # TODO: The api will eventually be behind a proxy and it will not be accesible from the internet.
+    depends_on:
+      - mongodb
+
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=user
+      - MONGO_INITDB_ROOT_PASSWORD=infra
+      - MONGO_INITDB_DATABASE=app
+    volumes:
+      - db-volume:/data/db
+
+volumes:
+  db-volume:
