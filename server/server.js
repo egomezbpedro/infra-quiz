@@ -4,9 +4,8 @@ require('dotenv').config()
 
 const {MONGO_IP, MONGO_INITDB_ROOT_PASSWORD, MONGO_PORT, MONGO_INITDB_ROOT_USERNAME, MONGO_INITDB_DATABASE, NODE_PORT} = process.env;
 
-const mongoURL= `mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@${MONGO_IP}:${MONGO_PORT}/${MONGO_INITDB_DATABASE}?directConnection=true&authSource=admin`
+const mongoURL= `mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@${MONGO_IP}:${MONGO_PORT}/${MONGO_INITDB_ROOT_PASSWORD}?directConnection=true&authSource=admin`
 
-console.log(mongoURL);
 function connectToDatabase (){
     mongoose.connect(mongoURL, {
         useNewUrlParser: true,
@@ -19,7 +18,9 @@ function connectToDatabase (){
         })
     }).catch((e) => {
         console.log(`Error while connecting: ${e}`);
-        setInterval(connectToDatabase,20000);
+        setTimeout(()=>{
+            connectToDatabase();
+        }, 60000)
     })
 }
 

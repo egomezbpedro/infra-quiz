@@ -8,6 +8,7 @@ WORKDIR /api-server
 COPY /server/package.json /api-server
 
 RUN npm i --omit=dev
+RUN apt update && apt install curl -y
 
 ## Copy the app code
 COPY /server /api-server

@@ -12,7 +12,8 @@ services:
     ports:
       - 9011:9011
     depends_on:
-      - api-server
+      api-server:
+        condition: service_healthy
 
   api-server:
     container_name: api-server
@@ -22,19 +23,29 @@ services:
     volumes:
       - ./server/:/api-server
       - /api-server/node_modules
-    env_file: ./server/.env
     ports:
       - 9001:9001
+    healthcheck:
+      test: curl -f https://localhost:9001 || exit 1
+      interval: 1m
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     depends_on:
-      - mongodb
+      mongodb:
+        condition: service_healthy
 
   mongodb:
     container_name: mongodb
     image: mongo
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=user
-      - MONGO_INITDB_ROOT_PASSWORD=password
-      - MONGO_INITDB_DATABASE=app
+    env_file:
+      - ./server/.env
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh mongodb:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
     volumes:
       - db-volume:/data/db
 
