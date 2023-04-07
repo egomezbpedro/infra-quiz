@@ -21,6 +21,7 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: [true, "A password is required"],
+        select: false,
     },
     score: {
         type: Number,
