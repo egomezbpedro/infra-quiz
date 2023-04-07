@@ -1,0 +1,6 @@
+[submodule "k8s"]
+	path = k8s
+	url = https://github.com/egomezbpedro/infra-quiz-k8s.git
+[submodule "wiki"]
+	path = wiki
+	url = https://github.com/egomezbpedro/infra-quiz.wiki.git
