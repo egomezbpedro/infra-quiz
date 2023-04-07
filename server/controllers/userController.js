@@ -53,7 +53,9 @@ const login = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
     try {
-        const users = await User.find();
+        // sort users by highest score and earliest response time
+        // https://mongoosejs.com/docs/queries.html#sorting
+        const users = await User.find().sort({ score: -1, lastResponse: 1 });
         res.status(200).json([users])
     } catch (error) {
         console.log(error);
