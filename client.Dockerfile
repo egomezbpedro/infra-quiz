@@ -9,6 +9,8 @@ COPY client/package.json /client
 
 RUN npm i --omit=dev
 
+RUN apt update && apt install curl -y
+
 ## Copy the app code
 COPY /client .
 
