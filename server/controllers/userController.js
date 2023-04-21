@@ -73,7 +73,6 @@ const getUser = async (req, res) => {
     try {
         const user = await User.findOne(email);
         if (user) {
-            console.log(user);
             res.status(200).json(user)
         } else {
             res.status(200).json({
@@ -94,9 +93,7 @@ const updateUser = async (req, res) => {
     // Get the id of the user to be updated from the request parameters
     const {userId, updatedFields } = req.body;
     try {
-        // Update the user
-        console.log(req.body);
-
+        
         const user = await User.findByIdAndUpdate(userId, updatedFields, {
             new: true,
             runValidators: true

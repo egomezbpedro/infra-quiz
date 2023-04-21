@@ -33,6 +33,8 @@ async function createQuiz() {
         // Get the quiz data from the api
         const quizData = await getQuizData();
 
+        console.log(quizData)
+
         // Create a new quiz in the database
         const newQuiz = await Quiz.create(quizData);
         
@@ -96,8 +98,6 @@ async function updateQuiz() {
     } catch (e) {
         console.log("Failed to update quiz");
         console.log(e);
-        deleteQuiz();
-        updateQuiz();
     }
 }
 
