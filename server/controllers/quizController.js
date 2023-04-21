@@ -33,11 +33,6 @@ async function createQuiz() {
         // Get the quiz data from the api
         const quizData = await getQuizData();
 
-        // Return error if no data was fetch from the api
-        if (!data){
-            throw Error('Fail to fetch quiz')
-        }
-
         // Create a new quiz in the database
         const newQuiz = await Quiz.create(quizData);
         
