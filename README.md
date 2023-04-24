@@ -20,3 +20,6 @@ A quiz like game built on top of Nodejs and React for Kubernetes.
 
 ##### Running the applicaiton
 Having this env file created the docker application can be runned with the command: `docker-compose -f docker-compose.yml up -V --build -d`
+
+## It looks like this
+![ezgif com-add-text](https://user-images.githubusercontent.com/57415533/233971491-84b83e63-6136-4099-a7ae-994d5504442c.gif)
